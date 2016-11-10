@@ -24,4 +24,9 @@ describe Tag do
     end
   end
 
+  describe '#id' do
+    it 'returns nil if tag does not have id' do
+      expect(tag.id).to eq('baz')
+    end
+  end
 end
