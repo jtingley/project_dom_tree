@@ -2,16 +2,18 @@
 require_relative 'html_parser'
 
 class Tag
-  attr_reader :source, :type, :id, :classes, :name, :children
+  attr_reader :source, :type, :id, :classes, :name, :children, 
+              :content
   attr_accessor :parent
 
   PARSER = HTMLParser.new
 
   def initialize(args = {})
-    @source   = args.fetch(:source)
+    @source   = args.fetch(:s)
     @tag      = Tag.build(source)
     @parent   = args.fetch(:parent, nil)
     @children = []
+    @content  = args.fetch(:c)
     assign
   end
 
