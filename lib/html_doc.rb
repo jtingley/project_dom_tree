@@ -34,10 +34,13 @@ class HTMLDoc
     begin
       tag_match = html.match(OPEN_TAG)
       if tag_match
+        # p "tag_match: #{tag_match}"
+        # p "content: #{tag_match.post_match}"
         # conver matchdata to string form
         tag_data = parse_opening_tag(tag_match)
         # create new tag from html string
-        @root = tag = create_tag(tag_data) unless parent
+        tag = create_tag(tag_data)
+        @root = tag unless parent
         # link parent & child
         link_tags(parent, tag)
         # get remaining html
@@ -45,7 +48,9 @@ class HTMLDoc
         # recursively call w/ remaining html
         return_match = parse(remaining_html, tag)
         if return_match.to_s.start_with?("</")
-          return return_match
+          p return_match.to_s
+          p return_match.post_match
+          return return_match.post_match
         else
           html = return_match.post_match
         end
@@ -55,14 +60,16 @@ class HTMLDoc
 
   def parse_opening_tag(tag_match)
     tag_source = tag_match.captures[0]
-    content = tag_match.gsub!(tag_source, "")
+    content = tag_match.to_s.gsub!(tag_source, "")
+    # p "Tag source #{tag_source}"
+    # p "Content #{content}"
     [tag_source, content]
   end
 
   def link_tags(parent, child)
     if parent
-      tag.parent = parent
-      parent.children << tag
+      child.parent = parent
+      parent.children << child
     end
   end
 
@@ -82,7 +89,9 @@ def test
   # test tree building
   html.parse
 
-  p html.root
+  p html.root.children.length
+ # p html.root.children
+  p html.root.content
 
   #html.output
 end
