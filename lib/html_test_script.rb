@@ -13,10 +13,13 @@ def test(file_path)
 
   match = read_result.match(NEW_TAG_CONTENT_PATTERN)
 
-# this demonstrates match.capture functionality
+  # string we're working with
+  p read_result
+
+  # this demonstrates match.capture functionality
   p match.captures
   p match.to_s
-  #p Tag.new(source: match.to_s)
+
   #p "Match: #{match}"
   #p "Post Match: #{match.post_match}"
 end
